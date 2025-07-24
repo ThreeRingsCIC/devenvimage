@@ -24,7 +24,6 @@ RUN cd /root/openssl-1.1.1w && ./config --prefix=/etc/openssl-1.1.1w --openssldi
 RUN cp -r /usr/lib/ssl/certs/* /etc/openssl-1.1.1w/certs/
 
 # Install Ruby 2.6.10, using the OpenSSL 1.1.1w we compiled above:
-COPY .ruby-version /root/.ruby-version
 RUN rvm install --with-openssl-dir=/etc/openssl-1.1.1w 2.6.10
 
 # Install `wait`, a utility that can help our entrypoint script wait for the DB server to come up before it starts trying to use it
