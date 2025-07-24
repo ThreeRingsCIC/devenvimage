@@ -38,4 +38,10 @@ RUN gem install bundler:2.4.22
 # Install Passenger so we can use Passenger Standalone
 RUN gem install passenger
 
-CMD [ "/usr/bin/bash" ]
+# Create a wrapper script for login shell called `bash-login`; we can run this to ensure that the shell is always a login shell, which RVM needs
+RUN echo -e '#!/bin/bash\nexec /bin/bash -l' > /bin/bash-login && chmod +x /bin/bash-login
+
+# Change the default shell for root to the `bash-login` wrapper, so any `docker exec` into this container will use a login shell!
+RUN sed -i 's|/bin/bash|/bin/bash-login|' /etc/passwd
+
+CMD [ "/usr/bin/bash", "-l" ]
