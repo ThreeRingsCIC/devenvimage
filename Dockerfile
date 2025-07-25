@@ -37,9 +37,9 @@ RUN gem install bundler:2.4.22
 
 # Pre-install an old-but-still-probably-mostly-relevant gemset so it's a springboard for new developers
 RUN mkdir -p /root/gemset
-COPY Gemfile Gemfile.lock /root/
+COPY Gemfile Gemfile.lock ./
 RUN bundle install
-RUN rm -f /root/Gemfile /root/Gemfile.lock
+RUN rm -f ./Gemfile ./Gemfile.lock
 
 # Install Passenger so we can use Passenger Standalone
 RUN gem install passenger
