@@ -35,15 +35,15 @@ RUN chmod +x /usr/local/bin/wait
 # 2.4.22 is the last version that supports Ruby 2.x (we need to jump to Ruby 3.x to go beyond that)
 RUN gem install bundler:2.4.22
 
+# Install Passenger so we can use Passenger Standalone
+RUN gem install passenger
+
 # Pre-install an old-but-still-probably-mostly-relevant gemset so it's a springboard for new developers
 RUN mkdir -p /root/gemset
 COPY Gemfile Gemfile.lock ./
 COPY lib/runt-rails /lib/runt-rails
 RUN bundle install
 RUN rm -rf ./Gemfile ./Gemfile.lock /lib/runt-rails
-
-# Install Passenger so we can use Passenger Standalone
-RUN gem install passenger
 
 # Create a wrapper script for login shell called `bash-login`; we can run this to ensure that the shell is always a login shell, which RVM needs
 RUN echo -e '#!/bin/bash\nexec /bin/bash -l' > /bin/bash-login && chmod +x /bin/bash-login
