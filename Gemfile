@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Layout/CommentIndentation -- indent however you need to in this file!
+
 # Ruby version for Three Rings
 ruby '2.6.10'
 # Tested with Bundler 2.3.22 - gem install bundler:2.3.22
@@ -15,7 +17,7 @@ gem 'runt-rails', path: 'lib/runt-rails/'
 # Core requirements - Rubygems, Rails, MySQL, JSON, JS parser
 # Rubygems 1.8.25 adds compatability for complex gemspacs (e.g. as used by ZenTest); Rubygems 2.0.0 does NOT yet
 # BUT Rubygems requirement can't be managed by bundler - install it yourself, e.g. "rvm install rubygems 1.8.25"
-gem 'rails',                      '~> 5.2.6.3'                          # Rails 5.x adds Action Cable, typed model attributes, ...
+gem 'rails',                      '~> 5.2.8.1'                          # Rails 5.x adds Action Cable, typed model attributes, ...
 gem 'mysql2',                     '0.5.5'                               # Connecting to the database needs this!
 gem 'mini_racer',                 '~> 0.6.3'                            # Ruby<->JS bridge, replacing therubyracer; supports V8 8.x+ so it works on M1 chips
 
@@ -84,6 +86,8 @@ gem 'faker',                      '>= 1.9.1'                            # genera
 gem 'vpim',                       '~> 13.11.11'                         # produces iCal, vCard, etc.
 gem 'color_contrast_calc',        '~> 0.9.0'                            # calculates contrast ratio between two colors for Theme foreground color selection
 gem 'precise_distance_of_time_in_words', '~> 0.0.3'                     # fork of dotiw with support for Rails 4, apparently
+gem 'webauthn',                   '~> 3.0'                              # WebAuthn support for passkeys
+gem 'user_agent_parser',          '~> 2.20'                             # browser & OS identification from user agent string, for passkey nicknames
 
 # Amazon Web Services APIs:
 gem 'aws-sdk-sesv2',              '~> 1', '>= 1.41.0'                   # talk to the AWS SES API (email suppression list etc.)
@@ -98,13 +102,8 @@ gem 'activerecord-userstamp',     '~> 3.0.6', git: 'https://github.com/Dan-Q/act
 
 gem 'dynamic_form',               '~> 1.1.4'                            # provides old-style error_messages_for/error_messages_on helpers, etc.
 gem 'single_test',                '>= 0.6.0'                            # easily run individual tests (https://github.com/grosser/single_test)
-# adds rake tasks via Rakefile; so can't be in development/test group
-gem 'non-stupid-digest-assets',   '>= 1.0.9'                            # prevents compiled stylesheets etc. having stupid digests, which break
-# our static pages
-
-# suite of ai tools such as neural networks and genetic algorithms that should hopefully speed up the autopopulator
-# ARE WE ACTUALLY USING THIS? - Dan 2018-01-13 | removing it causes "NameError: uninitialized constant RotaPopulatorGA::Ai4r" - Dan 2020-07-20
-gem 'ai4r'
+                                                                        # adds rake tasks via Rakefile; so can't be in development/test group
+gem 'non-stupid-digest-assets',   '>= 1.0.9'                            # prevents compiled stylesheets etc. having stupid digests, which break our static pages
 
 gem 'stripe',                     '>4.0.2'                              # Interface to Stripe electronics payments system
 gem 'breadcrumbs_on_rails',       '~> 3.0', '>= 3.0.1'                  # Adds a simple breadcrumb libary for admin page.
