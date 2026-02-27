@@ -9,7 +9,7 @@ SHELL [ "/bin/bash", "-l", "-c" ]
 
 # Install updates and prerequisites
 RUN apt update && apt upgrade -y
-RUN apt install -y nfs-common cron git clamav clamav-daemon libreoffice imagemagick mariadb-client libfreeimage-dev jq libmariadb-dev shared-mime-info wget gnupg2 bzip2 gawk g++ gcc autoconf automake bison libc6-dev libffi-dev libgdbm-dev libncurses5-dev libsqlite3-dev libtool libyaml-dev make pkg-config sqlite3 zlib1g-dev libgmp-dev libreadline-dev libssl-dev dirmngr gnupg apt-transport-https ca-certificates curl
+RUN apt install -y nfs-common cron git clamav clamav-daemon libreoffice imagemagick mariadb-client libfreeimage-dev jq libmariadb-dev shared-mime-info wget gnupg2 bzip2 gawk g++ gcc autoconf automake bison libc6-dev libffi-dev libgdbm-dev libncurses5-dev libsqlite3-dev libtool libyaml-dev make pkg-config sqlite3 zlib1g-dev libgmp-dev libreadline-dev libssl-dev dirmngr gnupg apt-transport-https ca-certificates curl wkhtmltopdf
 
 # Update ClamAV signatures
 RUN freshclam
@@ -52,3 +52,4 @@ RUN echo -e '#!/bin/bash\nexec /bin/bash -l' > /bin/bash-login && chmod +x /bin/
 RUN sed -i 's|/bin/bash|/bin/bash-login|' /etc/passwd
 
 CMD [ "/usr/bin/bash", "-l" ]
+
