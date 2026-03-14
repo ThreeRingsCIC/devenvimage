@@ -41,7 +41,6 @@ gem 'dotenv-rails',                 groups: [:test, :development, :production] #
 gem 'authlogic',                  '~> 3.8.0'                            # prior to 3.5.4 official, we used this fork: https://github.com/drhenner/authlogic
 gem 'rb-readline',                '~> 0.5.5'                            # Need 0.4.2 or less, or 0.5.0 or higher to avoid console crashes
 gem 'bcrypt',                     '~> 3.1.12'                           # bCrypt hashing (for ActiveModel has_secure_password)
-gem 'haml',                       '~> 5.0.4'                            # HAML processor (as opposed to ERb)
 gem 'color',                      '~> 1.8'
 gem 'colorize',                   '~> 0.8.1'                            # command prompt color codes e.g. "This is blue".colorize(:blue)
 gem 'image_science',              '~> 1.3.0',  require: false           # image resizing that doesn't suck: used by paperclip
@@ -88,6 +87,7 @@ gem 'color_contrast_calc',        '~> 0.9.0'                            # calcul
 gem 'precise_distance_of_time_in_words', '~> 0.0.3'                     # fork of dotiw with support for Rails 4, apparently
 gem 'webauthn',                   '~> 3.0'                              # WebAuthn support for passkeys
 gem 'user_agent_parser',          '~> 2.20'                             # browser & OS identification from user agent string, for passkey nicknames
+gem 'rack-utf8_sanitizer',        '~> 1.11'                             # sanitize UTF-8 strings in Rack requests to reduce exceptions from vuln scanner bots
 
 # Amazon Web Services APIs:
 gem 'aws-sdk-sesv2',              '~> 1', '>= 1.41.0'                   # talk to the AWS SES API (email suppression list etc.)
