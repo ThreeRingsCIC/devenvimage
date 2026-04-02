@@ -17,15 +17,15 @@ gem 'runt-rails', path: 'lib/runt-rails/'
 # Core requirements - Rubygems, Rails, MySQL, JSON, JS parser
 # Rubygems 1.8.25 adds compatability for complex gemspacs (e.g. as used by ZenTest); Rubygems 2.0.0 does NOT yet
 # BUT Rubygems requirement can't be managed by bundler - install it yourself, e.g. "rvm install rubygems 1.8.25"
-gem 'rails',                      '~> 5.2.8.1'                          # Rails 5.x adds Action Cable, typed model attributes, ...
-gem 'mysql2',                     '0.5.5'                               # Connecting to the database needs this!
+gem 'rails',                      '~> 6.0.6'                            # Rails 6.0.x
+gem 'mysql2',                     '0.5.7'                               # Connecting to the database needs this!
 gem 'mini_racer',                 '~> 0.6.3'                            # Ruby<->JS bridge, replacing therubyracer; supports V8 8.x+ so it works on M1 chips
 
 gem 'thin'                                                              # Dev webserver (instead of Puma, Webrick etc.)
 
 # Former Rails 3.1.x asset pipeline (now loaded as standard gems)
 gem 'sass-rails',                 '~> 5.0.7'                            # SASS -> CSS support in the asset pipeline
-gem 'coffee-rails',               '~> 4.2.2'                            # Coffee -> JS support in the asset pipeline
+gem 'coffee-rails',               '~> 5.0'                              # Coffee -> JS support in the asset pipeline
 gem 'terser'                                                            # Slightly-more-modern-than-Uglifier JS compression/optimisation for Rails
 
 gem 'jquery-rails',               '>= 4.3.3'
@@ -38,7 +38,7 @@ gem 'spring', '~> 2.0.2',                      group: :development
 
 # Application-specific gems
 gem 'dotenv-rails',                 groups: [:test, :development, :production] # .env file for ENV variable support; friendly sane configuration management
-gem 'authlogic',                  '~> 3.8.0'                            # prior to 3.5.4 official, we used this fork: https://github.com/drhenner/authlogic
+gem 'authlogic',                  '~> 6.5.0'
 gem 'rb-readline',                '~> 0.5.5'                            # Need 0.4.2 or less, or 0.5.0 or higher to avoid console crashes
 gem 'bcrypt',                     '~> 3.1.12'                           # bCrypt hashing (for ActiveModel has_secure_password)
 gem 'color',                      '~> 1.8'
@@ -64,7 +64,8 @@ gem 'acts_as_tree',               '~> 2.9.1'                            # replac
 gem 'rails_autolink',             '~> 1.1.8'                            # re-adds Rails 3 "auto_link" method (used by threerings_auto_link helper, etc.)
 gem 'rotp',                       '~> 6.3.0'                            # Google Authenticator
 gem 'yubikey',                    '~> 1.4.1'                            # YubiKey
-gem 'protected_attributes_continued', '~> 1.5.0'                        # re-adds attr_accessible and attr_protected methods; forked from protected_attributes
+gem 'protected_attributes_continued', '~> 1.9.0'                        # re-adds attr_accessible and attr_protected methods; forked from protected_attributes;
+                                                                        # only supports Rails <=6.1 so we need to keep working at removing attr_protected!
 gem 'sanitize',                   '~> 6.1.3'                            # HTML whitelisting
 gem 'dalli',                      '~> 3.2.4'                            # modern replacement to memcache-client gem; enables memcache-storage
 gem 'clamav-client',              '~> 3.1.0', require: 'clamav/client'  # ClamAV (antivirus) daemon integration
@@ -79,7 +80,7 @@ gem 'rest-client',                '~> 2.0.2'                            # Clicka
 gem 'nexmo',                      '~> 4.8.0'                            # Nexmo SMS gateway (4.5 available - upgrade?); see also vonage, below
 gem 'vonage',                     '>= 7.8.2'                            # Vonage are the company who took over Nexmo; their API is migrating towards/into this
 gem 'pil',                        '~> 0.3.0'                            # Allows Pil.include?(password) to check for common passwords in "Top 10,000" List
-gem 'exception_notification',     '~> 4.2.2'                            # emails us on 500 errors
+gem 'exception_notification',     '~> 4'                                # emails us on 500 errors
 gem 'slack-notifier'                                                    # sends those 500s to Slack, too
 gem 'faker',                      '>= 1.9.1'                            # generating random data (rake 3r:demo:reset)
 gem 'vpim',                       '~> 13.11.11'                         # produces iCal, vCard, etc.
@@ -92,13 +93,8 @@ gem 'rack-utf8_sanitizer',        '~> 1.11'                             # saniti
 # Amazon Web Services APIs:
 gem 'aws-sdk-sesv2',              '~> 1', '>= 1.41.0'                   # talk to the AWS SES API (email suppression list etc.)
 
-# We adapted the Userstamp plugin to our own Volunteerstamp plugin. Then when Userstamp became
-# a gem, we used that, but it stopped in 2010 with version 2.0.1, despite having commits against
-# the repo that fixed some of our problems, so we made our own 2.0.2. But that didn't work in
-# Rails 4, so we switched to the magiclabs/userstamp fork,
-# But when we switched to Rails 5 we found that it didn't support optional: true, so we switched to the lowjoel/activerecord-userstamp fork
-# This one uses methods that are deprecated by Rails 5.1, so we switched to Dan-Q/activerecord-userstamp
-gem 'activerecord-userstamp',     '~> 3.0.6', git: 'https://github.com/Dan-Q/activerecord-userstamp.git'
+#
+# Volunteer stamping is now implemented internally (see `UsesVolunteerStamping`) to keep it compatible with Rails 6.
 
 gem 'dynamic_form',               '~> 1.1.4'                            # provides old-style error_messages_for/error_messages_on helpers, etc.
 gem 'single_test',                '>= 0.6.0'                            # easily run individual tests (https://github.com/grosser/single_test)
@@ -107,9 +103,7 @@ gem 'non-stupid-digest-assets',   '>= 1.0.9'                            # preven
 
 gem 'stripe',                     '>4.0.2'                              # Interface to Stripe electronics payments system
 gem 'breadcrumbs_on_rails',       '~> 3.0', '>= 3.0.1'                  # Adds a simple breadcrumb libary for admin page.
-gem 'rouge',                      '~> 3.1.1'                            # Fixes already initalised warnings
-gem 'thor',                       '~> 0.20.3'                           # Prevents 'rails g' => "Expected string default value for '--jbuilder'" bug
-gem 'sassc',                      '~> 1.12', '>= 1.12.1'                # SASS C library ported back to Ruby, used for speedy theme compilation
+gem 'sassc',                      '~> 2.0'                              # SASS C library ported back to Ruby, used for speedy theme compilation
 gem 'actionmailer-text',          '~> 0.1.1'                            # Automatic generation of the text part of multipart emails based on the HTML part
 
 gem 'diffy', '~> 3.4'                                                   # diff generation in Ruby (used for help pages current/upcoming comparisons)
@@ -119,7 +113,7 @@ gem 'elasticsearch',              '~> 7.17.0'                           # Elasti
 
 group :development, :test do
   gem 'listen',                   '~> 3.1'                              # File watcher used by ThemeStylesheetStalenessChecker to decide when to recompile CSS
-  gem 'fontcustom'                                                      # Generates fonts from a selection of svg icons
+  # gem 'fontcustom'                                                      # Generates fonts from a selection of svg icons
   gem 'victor'                                                          # Generates Vectors using ruby
   gem 'victor-cli'                                                      # Converts Vectors into the Ruby used in the above.
   gem 'rufo',                     '~> 0.12.0'
