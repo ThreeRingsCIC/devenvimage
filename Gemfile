@@ -3,7 +3,7 @@
 # rubocop:disable Layout/CommentIndentation -- indent however you need to in this file!
 
 # Ruby version for Three Rings
-ruby '2.6.10'
+ruby '3.0.7'
 # Tested with Bundler 2.3.22 - gem install bundler:2.3.22
 
 # Gem required by Three Rings
@@ -17,7 +17,7 @@ gem 'runt-rails', path: 'lib/runt-rails/'
 # Core requirements - Rubygems, Rails, MySQL, JSON, JS parser
 # Rubygems 1.8.25 adds compatability for complex gemspacs (e.g. as used by ZenTest); Rubygems 2.0.0 does NOT yet
 # BUT Rubygems requirement can't be managed by bundler - install it yourself, e.g. "rvm install rubygems 1.8.25"
-gem 'rails',                      '~> 6.0.6'                            # Rails 6.0.x
+gem 'rails',                      '~> 6.1.6.10'                         # Rails 6.1.x
 gem 'mysql2',                     '0.5.7'                               # Connecting to the database needs this!
 gem 'mini_racer',                 '~> 0.6.3'                            # Ruby<->JS bridge, replacing therubyracer; supports V8 8.x+ so it works on M1 chips
 
