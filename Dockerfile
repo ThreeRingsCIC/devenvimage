@@ -35,8 +35,10 @@ RUN chmod +x /usr/local/bin/wait
 # 2.4.22 is the last version that supports Ruby 2.x (we need to jump to Ruby 3.x to go beyond that)
 RUN gem install bundler:2.4.22
 
-# Install Passenger so we can use Passenger Standalone
+# Install and precompile binaries for Passenger so we can use Passenger Standalone
 RUN gem install passenger
+RUN passenger-config build-native-support
+RUN passenger-config install-standalone-runtime
 
 # Pre-install an old-but-still-probably-mostly-relevant gemset so it's a springboard for new developers
 RUN mkdir -p /root/gemset
