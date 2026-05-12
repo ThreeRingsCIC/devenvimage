@@ -9,7 +9,7 @@ SHELL [ "/bin/bash", "-l", "-c" ]
 
 # Install updates and prerequisites
 RUN apt update && apt upgrade -y
-RUN apt install -y nfs-common cron git clamav clamav-daemon libreoffice imagemagick mariadb-client libfreeimage-dev jq libmariadb-dev shared-mime-info wget gnupg2 bzip2 gawk g++ gcc autoconf automake bison libc6-dev libffi-dev libgdbm-dev libncurses5-dev libsqlite3-dev libtool libyaml-dev make pkg-config sqlite3 zlib1g-dev libgmp-dev libreadline-dev libssl-dev dirmngr gnupg apt-transport-https ca-certificates curl wkhtmltopdf
+RUN apt install -y nfs-common cron git clamav clamav-daemon libreoffice imagemagick mariadb-client libfreeimage-dev jq libmariadb-dev shared-mime-info wget gnupg2 bzip2 gawk g++ gcc autoconf automake bison libc6-dev libffi-dev libgdbm-dev libncurses5-dev libsqlite3-dev libtool libyaml-dev make pkg-config sqlite3 zlib1g-dev libgmp-dev libreadline-dev libssl-dev dirmngr gnupg apt-transport-https ca-certificates curl wkhtmltopdf procps
 
 # Update ClamAV signatures
 RUN freshclam
@@ -18,13 +18,8 @@ RUN freshclam
 RUN gpg2 --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
 RUN \curl -sSL https://get.rvm.io | bash -s stable
 
-# Ruby 3.x requires OpenSSL 1.x, but Debian 12+ only comes with packages for OpenSSL 3.x, so we need to compile our own.
-RUN cd /root && wget https://www.openssl.org/source/openssl-1.1.1w.tar.gz && tar zxvf openssl-1.1.1w.tar.gz
-RUN cd /root/openssl-1.1.1w && ./config --prefix=/etc/openssl-1.1.1w --openssldir=/etc/openssl-1.1.1w && make && make test && make install && cd /root
-RUN cp -r /usr/lib/ssl/certs/* /etc/openssl-1.1.1w/certs/
-
-# Install Ruby 3.0.7, using the OpenSSL 1.1.1w we compiled above:
-RUN rvm install --with-openssl-dir=/etc/openssl-1.1.1w 3.0.7
+# Install Ruby 3.0.7
+RUN rvm install 3.0.7
 
 # Install `wait`, a utility that can help our entrypoint script wait for the DB server to come up before it starts trying to use it
 # https://github.com/ufoscout/docker-compose-wait/
