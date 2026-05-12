@@ -80,7 +80,7 @@ gem 'rest-client',                '~> 2.0.2'                            # Clicka
 gem 'nexmo',                      '~> 4.8.0'                            # Nexmo SMS gateway (4.5 available - upgrade?); see also vonage, below
 gem 'vonage',                     '>= 7.8.2'                            # Vonage are the company who took over Nexmo; their API is migrating towards/into this
 gem 'pil',                        '~> 0.3.0'                            # Allows Pil.include?(password) to check for common passwords in "Top 10,000" List
-gem 'exception_notification',     '~> 4'                                # emails us on 500 errors
+gem 'exception_notification',     '~> 4.5'                              # emails us on 500 errors; need 4.5.0+ for Rails 6.1
 gem 'slack-notifier'                                                    # sends those 500s to Slack, too
 gem 'faker',                      '>= 1.9.1'                            # generating random data (rake 3r:demo:reset)
 gem 'vpim',                       '~> 13.11.11'                         # produces iCal, vCard, etc.
