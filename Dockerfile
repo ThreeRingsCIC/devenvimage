@@ -4,6 +4,9 @@
 # Start from Debian 12
 FROM debian:12
 
+# Write version to a file for easy identification:
+RUN echo "ruby-3-0-7-rails-6-1-6-10" > /root/devenvimage-version.txt
+
 # Use a Login Shell, so RVM functions properly:
 SHELL [ "/bin/bash", "-l", "-c" ]
 
@@ -20,8 +23,10 @@ RUN \curl -sSL https://get.rvm.io | bash -s stable
 
 # Ruby 3.0.x requires OpenSSL 1.x, but Debian 12+ only comes with packages for OpenSSL 3.x, so we need to compile our own.
 # (Ruby 3.1.x+ support OpenSSL 3.x out of the box, so things will get easier from then; but we've got to be ready for Rails 7.0.1+ for that!)
+# The 'make TESTS=-test_afalg test' disables a test that's known-broken (https://github.com/openssl/openssl/issues/12242) on
+# this Linux kernel when emulating x86 using an arm64 CPU (e.g. Apple Silicon) [means we can 'docker build' on a Mac].
 RUN cd /root && wget https://www.openssl.org/source/openssl-1.1.1w.tar.gz && tar zxvf openssl-1.1.1w.tar.gz
-RUN cd /root/openssl-1.1.1w && ./config --prefix=/etc/openssl-1.1.1w --openssldir=/etc/openssl-1.1.1w && make && make test && make install && cd /root
+RUN cd /root/openssl-1.1.1w && ./config --prefix=/etc/openssl-1.1.1w --openssldir=/etc/openssl-1.1.1w && make && make TESTS=-test_afalg test && make install && cd /root
 RUN cp -r /usr/lib/ssl/certs/* /etc/openssl-1.1.1w/certs/
 
 # Install Ruby 3.0.7, using the OpenSSL 1.1.1w we compiled above:
