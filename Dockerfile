@@ -39,6 +39,7 @@ RUN passenger-config install-standalone-runtime
 # Pre-install an old-but-still-probably-mostly-relevant gemset so it's a springboard for new developers
 RUN mkdir -p /root/gemset
 #COPY Gemfile Gemfile.lock ./
+COPY Gemfile ./
 COPY lib/runt-rails /lib/runt-rails
 RUN bundle install
 RUN rm -rf ./Gemfile ./Gemfile.lock /lib/runt-rails
