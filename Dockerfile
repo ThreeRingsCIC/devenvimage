@@ -4,9 +4,6 @@
 # Start from Debian 12
 FROM debian:12
 
-# Write version to a file for easy identification:
-RUN echo "ruby-3-0-7-rails-6-1-6-10" > /root/devenvimage-version.txt
-
 # Use a Login Shell, so RVM functions properly:
 SHELL [ "/bin/bash", "-l", "-c" ]
 
@@ -41,14 +38,6 @@ RUN chmod +x /usr/local/bin/wait
 RUN gem install passenger
 RUN passenger-config build-native-support
 RUN passenger-config install-standalone-runtime
-
-# Pre-install an old-but-still-probably-mostly-relevant gemset so it's a springboard for new developers
-RUN mkdir -p /root/gemset
-#COPY Gemfile Gemfile.lock ./
-COPY Gemfile ./
-COPY lib/runt-rails /lib/runt-rails
-RUN bundle install
-RUN rm -rf ./Gemfile ./Gemfile.lock /lib/runt-rails
 
 # Create a wrapper script for login shell called `bash-login`; we can run this to ensure that the shell is always a login shell, which RVM needs
 RUN echo -e '#!/bin/bash\nexec /bin/bash -l' > /bin/bash-login && chmod +x /bin/bash-login
